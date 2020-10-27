@@ -9,6 +9,8 @@ test_op() {
     local expression=$1 
     echo "Testing " ${expression} "..."
     echo -ne ${expression}'\0' > $CALC_DEV
+    # local tmp=$(cat $CALC_DEV)
+    # echo "obase=2; $tmp" | bc
     $EVAL $(cat $CALC_DEV)
 }
 
@@ -68,6 +70,18 @@ test_op '$(number, 1), $(number, 2+3), number()' # should be 5
 
 # pre-defined function
 test_op 'nop()'
+
+# sqrt
+test_op 'sqrt(-1)'
+test_op 'sqrt(0)'
+test_op 'sqrt(1)'
+test_op 'sqrt(2)'
+test_op 'sqrt(3)'
+test_op 'sqrt(4)'
+test_op 'sqrt(2147483647)'
+test_op 'sqrt(2147483647 + (1 - (1 >> 32)))'
+test_op 'sqrt(1/0)'
+test_op 'sqrt(0/0)'
 
 sudo rmmod calc
 

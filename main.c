@@ -10,6 +10,7 @@
 
 #include <linux/string.h> /* for memset() and memcpy() */
 #include "expression.h"
+#include "fixed-point.h"
 
 MODULE_LICENSE("Dual MIT/GPL");
 MODULE_AUTHOR("National Cheng Kung University, Taiwan");
@@ -118,8 +119,45 @@ noinline uint64_t user_func_nop(struct expr_func *f, vec_expr_t args, void *c)
     return 0;
 }
 
+// https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Binary_numeral_system_(base_2)
+// should be accurate to the least significant bit
+// TODO: remove the use of __uint128_t
+uint64_t fpsqrt(uint64_t n)
+{
+    __uint128_t m = (__uint128_t) n << 32;
+    __uint128_t x = 0;
+    __uint128_t b = (__uint128_t) 1 << 96;
+    while (b > m)
+        b /= 4;
+    while (b) {
+        if (m > x + b) {
+            m -= x + b;
+            x = x / 2 + b;
+        } else {
+            x = x / 2;
+        }
+        b /= 4;
+    }
+    return x;
+}
+
+noinline uint64_t user_func_sqrt(struct expr_func *f, vec_expr_t args, void *c)
+{
+    (void) args;
+    (void) c;
+    if (f->ctxsz != args.len)
+        return NAN_INT;
+    uint64_t x = expr_eval(&args.buf[0]);
+    if (x == NAN_INT || x == INF_INT)
+        return x;
+    if ((int64_t) x < 0)
+        return NAN_INT;
+    return fpsqrt(x);
+}
+
 static struct expr_func user_funcs[] = {
     {"nop", user_func_nop, user_func_nop_cleanup, 0},
+    {"sqrt", user_func_sqrt, user_func_nop_cleanup, 1},
     {NULL, NULL, NULL, 0},
 };
 

@@ -1,7 +1,7 @@
 KDIR=/lib/modules/$(shell uname -r)/build
 
 obj-m += calc.o
-calc-objs += main.o expression.o
+calc-objs += main.o expression.o fixed-point.o
 ccflags-y := -std=gnu99 -Wno-declaration-after-statement
 
 GIT_HOOKS := .git/hooks/applied
@@ -23,8 +23,8 @@ unload:
 check: all
 	scripts/test.sh
 
-eval: eval.c
-	$(CC) -o $@ $< -std=gnu11
+eval: eval.c fixed-point.o
+	$(CC) fixed-point.o -o $@ $< -std=gnu11
 
 clean:
 	make -C $(KDIR) M=$(PWD) clean
