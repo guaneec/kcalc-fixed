@@ -104,6 +104,19 @@ test_op 'sqrt(2147483647 + (1 - (1 >> 32)))'
 test_op 'sqrt(1/0)'
 test_op 'sqrt(0/0)'
 
+# sum
+test_op 'sum(i, i, 1, 10)'
+test_op 'sum(11 - i, i, 1, 10)'
+test_op 'sum(i**2, i, 1, 10)'
+test_op 'n=5, sum((i > 0) - (i < 0), i, -n, n)' # should be 0
+test_op 'n=5, sum((i > 0) - (i < 0), i, -n+1, n)' # should be 1
+test_op 'n=5, sum((i > 0) - (i < 0), i, -n, n-1)' # should be -1
+
+# WARNING: hangs for a while, but should work
+# test_op 'n=2147483647, sum((i > 0) - (i < 0), i, -n, n)' # should be 0
+# test_op 'n=2147483647, sum((i > 0) - (i < 0), i, -n+1, n)' # should be 1
+# test_op 'n=2147483647, sum((i > 0) - (i < 0), i, -n, n-1)' # should be -1
+
 sudo rmmod calc
 
 # epilogue

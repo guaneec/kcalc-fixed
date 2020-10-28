@@ -156,6 +156,45 @@ struct expr *expr_create(const char *s,
 
 void expr_destroy(struct expr *e, struct expr_var_list *vars);
 
+enum expr_type {
+    OP_UNKNOWN,
+    OP_UNARY_MINUS,
+    OP_UNARY_LOGICAL_NOT,
+    OP_UNARY_BITWISE_NOT,
+
+    OP_POWER,
+    OP_DIVIDE,
+    OP_MULTIPLY,
+    OP_REMAINDER,
+
+    OP_PLUS,
+    OP_MINUS,
+
+    OP_SHL,
+    OP_SHR,
+
+    OP_LT,
+    OP_LE,
+    OP_GT,
+    OP_GE,
+    OP_EQ,
+    OP_NE,
+
+    OP_BITWISE_AND,
+    OP_BITWISE_OR,
+    OP_BITWISE_XOR,
+
+    OP_LOGICAL_AND,
+    OP_LOGICAL_OR,
+
+    OP_ASSIGN,
+    OP_COMMA,
+
+    OP_CONST,
+    OP_VAR,
+    OP_FUNC,
+};
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

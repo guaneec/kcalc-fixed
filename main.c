@@ -155,9 +155,40 @@ noinline uint64_t user_func_sqrt(struct expr_func *f, vec_expr_t args, void *c)
     return fpsqrt(x);
 }
 
+noinline uint64_t user_func_sum(struct expr_func *f, vec_expr_t args, void *c)
+{
+    // args: summand, counter, start, end
+    // see also: http://eagle.cs.kent.edu/MAXIMA/maxima_6.html#IDX171
+    (void) args;
+    (void) c;
+    if (f->ctxsz != args.len)
+        return NAN_INT;
+    if (args.buf[1].type != OP_VAR)
+        return NAN_INT;
+    int64_t *i = (int64_t *) args.buf[1].param.var.value;
+    uint64_t sum = 0;
+    int64_t start = expr_eval(&args.buf[2]);
+    int64_t stop = expr_eval(&args.buf[3]);
+    int64_t safety = (1l << 32) - 1;
+    for (*i = start; *i <= stop && safety >= 0; *i += (1ll << 32), --safety) {
+        uint64_t d = expr_eval(&args.buf[0]);
+        if (d == NAN_INT || d == INF_INT)
+            return d;
+        sum += d;
+
+        // overflow detection
+        if ((int64_t)(*(uint64_t *) i + (1ul << 32)) < *i)
+            break;
+    }
+    if (safety < 0)
+        return NAN_INT;
+    return sum;
+}
+
 static struct expr_func user_funcs[] = {
     {"nop", user_func_nop, user_func_nop_cleanup, 0},
     {"sqrt", user_func_sqrt, user_func_nop_cleanup, 1},
+    {"sum", user_func_sum, user_func_nop_cleanup, 4},
     {NULL, NULL, NULL, 0},
 };
 
