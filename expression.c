@@ -328,12 +328,14 @@ static uint64_t minus(uint64_t a, uint64_t b)
 
 static int compare(uint64_t a, uint64_t b)
 {
+    int64_t sa = (int64_t) a;
+    int64_t sb = (int64_t) b;
     int flags = 0;
-    if (a < b)
+    if (sa < sb)
         flags |= LOWER;
-    if (a > b)
+    if (sa > sb)
         flags |= GREATER;
-    if (a == b)
+    if (sa == sb)
         flags |= EQUAL;
 
     return flags;
