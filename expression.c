@@ -7,7 +7,7 @@
 #include <linux/module.h>
 #include <linux/string.h>
 
-#define MASK(n) (((n) > 0) << 4)
+#define MASK(n) ((uint64_t)((n) > 0) << 32)
 /*
  * LSB 4 bits for precision, 2^3, one for sign
  * MSB 28 bits for integer

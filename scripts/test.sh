@@ -27,6 +27,27 @@ sudo insmod $CALC_MOD
 sudo chmod 0666 $CALC_DEV
 echo
 
+# compares
+test_op '1> 2'
+test_op '1>=2'
+test_op '1< 2'
+test_op '1<=2'
+test_op '1==2'
+test_op '1!=2'
+test_op '1> 1'
+test_op '1>=1'
+test_op '1< 1'
+test_op '1<=1'
+test_op '1==1'
+test_op '1!=1'
+test_op '2> 1'
+test_op '2>=1'
+test_op '2< 1'
+test_op '2<=1'
+test_op '2==1'
+test_op '2!=1'
+
+
 # multiply
 test_op '6*7'
 
