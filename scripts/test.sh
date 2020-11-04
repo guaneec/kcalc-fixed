@@ -89,6 +89,13 @@ test_op '$(zero), zero()' # should be 0
 test_op '$(one, 1), one()+one(1)+one(1, 2, 4)' # should be 3
 test_op '$(number, 1), $(number, 2+3), number()' # should be 5
 
+# positional arguments
+test_op '$(sqr,$1*$1),sqr(5)'
+test_op '$(f, $1+$2), f(20, 3)'
+test_op '$(f, $1+$2), f(100, f(20, 3))'
+test_op '$(f, $1+$2), $(g, $1*$2), f(100, g(20, 3))'
+test_op '$(f, $1+$2), $(g, $1*$2), f(100, g(20, f(3, 4)))'
+
 # pre-defined function
 test_op 'nop()'
 
