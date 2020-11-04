@@ -145,7 +145,7 @@ noinline uint64_t user_func_sqrt(struct expr_func *f, vec_expr_t args, void *c)
 {
     (void) args;
     (void) c;
-    if (f->ctxsz != args.len)
+    if (1 != args.len)
         return NAN_INT;
     uint64_t x = expr_eval(&args.buf[0]);
     if (x == NAN_INT || x == INF_INT)
@@ -161,7 +161,7 @@ noinline uint64_t user_func_sum(struct expr_func *f, vec_expr_t args, void *c)
     // see also: http://eagle.cs.kent.edu/MAXIMA/maxima_6.html#IDX171
     (void) args;
     (void) c;
-    if (f->ctxsz != args.len)
+    if (4 != args.len)
         return NAN_INT;
     if (args.buf[1].type != OP_VAR)
         return NAN_INT;
@@ -187,8 +187,8 @@ noinline uint64_t user_func_sum(struct expr_func *f, vec_expr_t args, void *c)
 
 static struct expr_func user_funcs[] = {
     {"nop", user_func_nop, user_func_nop_cleanup, 0},
-    {"sqrt", user_func_sqrt, user_func_nop_cleanup, 1},
-    {"sum", user_func_sum, user_func_nop_cleanup, 4},
+    {"sqrt", user_func_sqrt, user_func_nop_cleanup, 0},
+    {"sum", user_func_sum, user_func_nop_cleanup, 0},
     {NULL, NULL, NULL, 0},
 };
 
