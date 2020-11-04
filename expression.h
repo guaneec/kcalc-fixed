@@ -193,7 +193,12 @@ enum expr_type {
     OP_CONST,
     OP_VAR,
     OP_FUNC,
+    OP_MACRO_ARG,
 };
+
+void expr_foreach(struct expr *e,
+                  void (*cb_pre)(struct expr *),
+                  void (*cb_post)(struct expr *));
 
 #ifdef __cplusplus
 } /* extern "C" */
