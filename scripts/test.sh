@@ -50,6 +50,7 @@ test_op '-1!=-1'
 
 # multiply
 test_op '6*7'
+test_op '1.5*1.5'
 
 # add
 test_op '1980+1'

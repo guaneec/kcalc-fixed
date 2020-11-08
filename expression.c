@@ -261,8 +261,9 @@ static uint64_t mult(uint64_t a, uint64_t b)
     fixedp result = {.inte = fa.inte * fb.inte};
     uint64_t ad = (GET_NUM(a) >> 32) * GET_FRAC(b);
     uint64_t bc = GET_FRAC(a) * (GET_NUM(b) >> 32);
+    uint64_t bd = GET_FRAC(a) * GET_FRAC(b) >> 32;
 
-    return result.data + ad + bc;
+    return result.data + ad + bc + bd;
 }
 
 static uint64_t divid(uint64_t a, uint64_t b)
