@@ -114,7 +114,7 @@ test_op '$(test_sqrt, r=sqrt(a), r1=r+(1>>32), r*r<=a && (r1*r1>=a || r1*r1<0)),
 test_op '$(test_sqrt, r=sqrt(a), r1=r+(1>>32), r*r<=a && (r1*r1>=a || r1*r1<0)), test_sqrt(3)'
 test_op '$(test_sqrt, r=sqrt(a), r1=r+(1>>32), r*r<=a && (r1*r1>=a || r1*r1<0)), test_sqrt(4)'
 test_op '$(test_sqrt, r=sqrt(a), r1=r+(1>>32), r*r<=a && (r1*r1>=a || r1*r1<0)), test_sqrt(5)'
-test_op '$(test_sqrt, r=sqrt(a), r1=r+(1>>32), r*r<=a && (r1*r1>=a || r1*r1<0)), test_sqrt(1>>32)'
+test_op '$(test_sqrt, r=sqrt(a), r1=r+(1>>32), r*r<=a && (r1*r1>=a || r1*r1<0)), test_sqrt(1>>30)'
 test_op '$(test_sqrt, r=sqrt(a), r1=r+(1>>32), r*r<=a && (r1*r1>=a || r1*r1<0)), test_sqrt(1+(1>>31))'
 test_op '$(test_sqrt, r=sqrt(a), r1=r+(1>>32), r*r<=a && (r1*r1>=a || r1*r1<0)), test_sqrt(1+(1>>32))'
 test_op '$(test_sqrt, r=sqrt(a), r1=r+(1>>32), r*r<=a && (r1*r1>=a || r1*r1<0)), test_sqrt(2147483647+(1>>15))'
