@@ -123,11 +123,13 @@ noinline uint64_t user_func_nop(struct expr_func *f, vec_expr_t args, void *c)
 // should be accurate to the least significant bit
 uint64_t fpsqrt(uint64_t n)
 {
+    int offset = n < 1ull << 48 ? 8 : 0;
+    n <<= offset * 2;
     n >>= 15;
     uint64_t x = 0;
     uint64_t s = 0;
     uint64_t b = 1ull << 47;
-    while (b) {
+    while (b >= 1ull << offset) {
         uint64_t t = s + b;
         if (n >= t) {
             n -= t;
@@ -137,7 +139,7 @@ uint64_t fpsqrt(uint64_t n)
         n <<= 1;
         b >>= 1;
     }
-    return x;
+    return x >> offset;
 }
 
 noinline uint64_t user_func_sqrt(struct expr_func *f, vec_expr_t args, void *c)
