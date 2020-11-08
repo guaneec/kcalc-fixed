@@ -121,22 +121,21 @@ noinline uint64_t user_func_nop(struct expr_func *f, vec_expr_t args, void *c)
 
 // https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Binary_numeral_system_(base_2)
 // should be accurate to the least significant bit
-// TODO: remove the use of __uint128_t
 uint64_t fpsqrt(uint64_t n)
 {
-    __uint128_t m = (__uint128_t) n << 32;
-    __uint128_t x = 0;
-    __uint128_t b = (__uint128_t) 1 << 96;
-    while (b > m)
-        b /= 4;
+    n >>= 15;
+    uint64_t x = 0;
+    uint64_t s = 0;
+    uint64_t b = 1ull << 47;
     while (b) {
-        if (m > x + b) {
-            m -= x + b;
-            x = x / 2 + b;
-        } else {
-            x = x / 2;
+        uint64_t t = s + b;
+        if (n >= t) {
+            n -= t;
+            s = t + b;
+            x += b;
         }
-        b /= 4;
+        n <<= 1;
+        b >>= 1;
     }
     return x;
 }
